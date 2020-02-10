@@ -1,9 +1,9 @@
 mod types;
-use types::cell::Cell;
+use types::chunk::Chunk;
 use types::grid::Grid;
 
-pub fn create_grid(x: usize, y: usize) -> Grid<Cell> {
-    let grid: Grid<Cell> = Grid::<Cell>::new(x, y);
+pub fn create_grid(x: usize, y: usize) -> Grid<Chunk> {
+    let grid: Grid<Chunk> = Grid::<Chunk>::new(x, y);
     grid.print_grid();
     grid.make_boarder();
     grid.print_grid();

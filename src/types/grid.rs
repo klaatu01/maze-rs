@@ -1,22 +1,22 @@
-use super::cell::Cell;
+use super::chunk::Chunk;
 
 pub struct Grid<T> {
     pub y: usize,
     pub x: usize,
-    pub cells: Vec<T>,
+    pub chunks: Vec<T>,
 }
 
-impl Grid<Cell> {
-    pub fn new(x: usize, y: usize) -> Grid<Cell> {
+impl Grid<Chunk> {
+    pub fn new(x: usize, y: usize) -> Grid<Chunk> {
         let mut grid = Grid {
             x: x,
             y: y,
-            cells: Vec::with_capacity(x),
+            chunks: Vec::with_capacity(x),
         };
         for i in 0..x {
             for j in 0..y {
-                let cell = Cell::new(i, j, 0);
-                grid.cells.push(cell);
+                let chunk = Chunk::new(i, j, 0);
+                grid.chunks.push(chunk);
             }
         }
         grid
@@ -32,8 +32,8 @@ impl Grid<Cell> {
         }
     }
 
-    pub fn index(&self, x: usize, y: usize) -> &Cell {
-        &self.cells[(x * self.y) + y]
+    pub fn index(&self, x: usize, y: usize) -> &Chunk {
+        &self.chunks[(x * self.y) + y]
     }
 
     pub fn print_grid(&self) -> () {
