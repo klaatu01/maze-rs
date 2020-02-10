@@ -2,11 +2,11 @@
     fn new(x: u32, y: u32) -> Self;
     fn to_string(&self) -> String;
 }*/
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub struct Cell {
     y: usize,
     x: usize,
-    pub val: usize,
+    pub val: std::cell::Cell<usize>,
 }
 
 impl Cell {
@@ -14,11 +14,11 @@ impl Cell {
         Cell {
             x: x,
             y: y,
-            val: val,
+            val: std::cell::Cell::new(val),
         }
     }
 
     pub fn to_string(&self) -> String {
-        return format!("x:{},y:{},v:{}", self.x, self.y, self.val);
+        return format!("x:{},y:{},v:{}", self.x, self.y, self.val.get());
     }
 }
