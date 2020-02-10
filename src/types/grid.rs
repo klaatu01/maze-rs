@@ -22,7 +22,7 @@ impl Grid<Chunk> {
         grid
     }
 
-    pub fn make_boarder(&self) -> () {
+    pub fn apply_boarder(&self) -> () {
         for i in 0..self.x {
             for j in 0..self.y {
                 if i == 0 || i == self.x - 1 || j == 0 || j == self.y - 1 {
