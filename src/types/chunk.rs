@@ -21,4 +21,12 @@ impl Chunk {
     pub fn to_string(&self) -> String {
         return format!("x:{},y:{},v:{}", self.x, self.y, self.val.get());
     }
+
+    pub fn x(&self) -> usize {
+        self.x
+    }
+
+    pub fn y(&self) -> usize {
+        self.y
+    }
 }

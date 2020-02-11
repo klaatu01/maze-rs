@@ -32,22 +32,44 @@ impl Grid<Chunk> {
         }
     }
 
+    pub fn fill(&self, val: usize) -> () {
+        for i in 0..self.x {
+            for j in 0..self.y {
+                self.index(i, j).val.set(val);
+            }
+        }
+    }
+
     pub fn index(&self, x: usize, y: usize) -> &Chunk {
         &self.chunks[(x * self.y) + y]
     }
 
-    pub fn print_grid(&self) -> () {
+    pub fn to_string(&self) -> String {
         let mut s = String::new();
         for i in 0..self.x {
             for j in 0..self.y {
                 let c = self.index(i, j);
                 match c.val.get() {
-                    1 => s += "X",
-                    _ => s += " ",
+                    1 => s += "X ",
+                    _ => s += "  ",
                 }
             }
             s += "\n";
         }
-        println!("{}", s)
+        s.to_string()
+    }
+
+    pub fn north(&self, chunk: &Chunk) -> Option<&Chunk> {
+        if chunk.y() + 1 < self.y {
+            return Some(self.index(chunk.x(), chunk.y() + 1));
+        }
+        None
+    }
+
+    pub fn east(&self, chunk: &Chunk) -> Option<&Chunk> {
+        if chunk.x() + 1 < self.x {
+            return Some(self.index(chunk.x() + 1, chunk.y()));
+        }
+        None
     }
 }
