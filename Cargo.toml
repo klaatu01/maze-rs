@@ -15,3 +15,4 @@ name = "maze-gen"
 path = "src/main.rs"
 
 [dependencies]
+piston_window = "0.98.0"

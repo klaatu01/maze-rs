@@ -1,8 +1,9 @@
-mod types;
+pub mod types;
 use types::chunk::Chunk;
 use types::grid::Grid;
-mod alg;
+pub mod alg;
 use alg::bta::bta;
+pub mod disp;
 
 pub fn create_grid(x: usize, y: usize) -> Grid<Chunk> {
     let grid: Grid<Chunk> = Grid::<Chunk>::new(x, y);

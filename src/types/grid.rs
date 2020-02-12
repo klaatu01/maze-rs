@@ -6,6 +6,13 @@ pub struct Grid<T> {
     pub chunks: Vec<T>,
 }
 
+pub enum Dir {
+    North,
+    East,
+    South,
+    West,
+}
+
 impl Grid<Chunk> {
     pub fn new(x: usize, y: usize) -> Grid<Chunk> {
         let mut grid = Grid {
@@ -46,14 +53,8 @@ impl Grid<Chunk> {
 
     pub fn to_string(&self) -> String {
         let mut s = String::new();
-        for i in 0..self.x {
-            for j in 0..self.y {
-                let c = self.index(i, j);
-                match c.val.get() {
-                    1 => s += "X ",
-                    _ => s += "  ",
-                }
-            }
+        for j in 0..self.y {
+            for i in 0..self.x {}
             s += "\n";
         }
         s.to_string()
@@ -71,5 +72,41 @@ impl Grid<Chunk> {
             return Some(self.index(chunk.x() + 1, chunk.y()));
         }
         None
+    }
+
+    pub fn south(&self, chunk: &Chunk) -> Option<&Chunk> {
+        if chunk.y() - 1 > 0 {
+            return Some(self.index(chunk.x(), chunk.y() - 1));
+        }
+        None
+    }
+
+    pub fn west(&self, chunk: &Chunk) -> Option<&Chunk> {
+        if chunk.x() - 1 > 0 {
+            return Some(self.index(chunk.x() - 1, chunk.y()));
+        }
+        None
+    }
+
+    pub fn linked(&self, cell: &Chunk, direction: Dir) -> bool {
+        match direction {
+            Dir::North => match self.north(cell) {
+                Some(c) => true,
+                _ => false,
+            },
+            Dir::East => match self.east(cell) {
+                Some(c) => true,
+                _ => false,
+            },
+            Dir::South => match self.south(cell) {
+                Some(c) => true,
+                _ => false,
+            },
+            Dir::West => match self.west(cell) {
+                Some(c) => true,
+                _ => false,
+            },
+            _ => false,
+        }
     }
 }
