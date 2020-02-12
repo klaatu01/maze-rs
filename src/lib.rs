@@ -1,8 +1,8 @@
-pub mod types;
-use types::chunk::Chunk;
-use types::grid::Grid;
-pub mod alg;
+mod alg;
+mod types;
 use alg::bta::bta;
+pub use types::chunk::Chunk;
+pub use types::grid::Grid;
 pub mod disp;
 
 pub fn create_grid(x: usize, y: usize) -> Grid<Chunk> {

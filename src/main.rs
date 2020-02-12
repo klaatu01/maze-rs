@@ -1,8 +1,7 @@
 use maze::create_grid;
 use maze::perform_bta;
-mod lib;
 
-use lib::disp::display::Display;
+use maze::disp::display::Display;
 
 extern crate piston_window;
 
@@ -17,9 +16,9 @@ fn main() {
         .build()
         .unwrap();
 
-    let d = Display::new(g, &window);
+    let mut d = Display::new(g, window);
 
-    while let Some(event) = window.next() {
-        d.update(&event);
+    while let Some(event) = d.window.next() {
+        d.update(event);
     }
 }
