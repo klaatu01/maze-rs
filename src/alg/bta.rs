@@ -42,6 +42,10 @@ impl Rand {
 
 pub fn bta(grid: &Grid<Chunk>) -> () {
     let mut rng = Rand::new(0);
+    match SystemTime::now().duration_since(UNIX_EPOCH) {
+        Ok(t) => rng = Rand::new(t.as_millis() as u32),
+        _ => (),
+    }
     grid.index(0, 0).val.set(0);
     for x in 0..grid.x {
         for y in 0..grid.y {

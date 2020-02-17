@@ -16,3 +16,4 @@ path = "src/main.rs"
 
 [dependencies]
 piston_window = "0.98.0"
+clap = { git = "https://github.com/clap-rs/clap/" }
