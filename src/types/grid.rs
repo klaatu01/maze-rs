@@ -88,22 +88,46 @@ impl Grid<Chunk> {
         None
     }
 
+    pub fn link(&self, a: &Chunk, b: &Chunk) -> () {
+        let x_diff: isize = (b.x() - a.x()) as isize;
+        let y_diff: isize = (b.y() - a.y()) as isize;
+        match (x_diff, y_diff) {
+            (0, 1) => {
+                a.link(Dir::North);
+                b.link(Dir::South);
+            }
+            (0, -1) => {
+                a.link(Dir::South);
+                b.link(Dir::North);
+            }
+            (1, 0) => {
+                a.link(Dir::East);
+                b.link(Dir::West);
+            }
+            (-1, 0) => {
+                a.link(Dir::West);
+                b.link(Dir::East);
+            }
+            (_, _) => (),
+        }
+    }
+
     pub fn linked(&self, cell: &Chunk, direction: Dir) -> bool {
         match direction {
             Dir::North => match self.north(cell) {
-                Some(c) => true,
+                Some(c) => cell.north.get() && c.south.get(),
                 _ => false,
             },
             Dir::East => match self.east(cell) {
-                Some(c) => true,
+                Some(c) => cell.east.get() && c.west.get(),
                 _ => false,
             },
             Dir::South => match self.south(cell) {
-                Some(c) => true,
+                Some(c) => cell.south.get() && c.north.get(),
                 _ => false,
             },
             Dir::West => match self.west(cell) {
-                Some(c) => true,
+                Some(c) => cell.west.get() && c.east.get(),
                 _ => false,
             },
             _ => false,

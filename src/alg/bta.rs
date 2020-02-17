@@ -42,21 +42,30 @@ impl Rand {
 
 pub fn bta(grid: &Grid<Chunk>) -> () {
     let mut rng = Rand::new(0);
-    grid.index(1, 1).val.set(0);
-    for x in 1..grid.x - 1 {
-        for y in 1..grid.y - 1 {
+    grid.index(0, 0).val.set(0);
+    for x in 0..grid.x {
+        for y in 0..grid.y {
             let c = grid.index(x, y);
             let n_or_e = rng.rand_range(0, 1);
-            match n_or_e {
-                0 => match grid.north(c) {
-                    Some(chunk) => c.val.set(0),
+
+            let is_north = y == grid.y - 1;
+            let is_east = x == grid.x - 1;
+            fn link_if_some(grid: &Grid<Chunk>, chunk: &Chunk, opt_chunk: Option<&Chunk>) -> () {
+                match opt_chunk {
+                    Some(ch) => grid.link(chunk, ch),
+                    None => (),
+                };
+                ()
+            }
+            match (is_north, is_east) {
+                (false, false) => match n_or_e {
+                    0 => link_if_some(grid, c, grid.north(c)),
+                    1 => link_if_some(grid, c, grid.east(c)),
                     _ => (),
                 },
-                1 => match grid.east(c) {
-                    Some(chunk) => c.val.set(0),
-                    _ => (),
-                },
-                _ => (),
+                (true, false) => link_if_some(grid, c, grid.east(c)),
+                (false, true) => link_if_some(grid, c, grid.north(c)),
+                (true, true) => (),
             }
         }
     }
