@@ -20,7 +20,7 @@ pub fn perform_alg(grid: &Grid<Chunk>, algorithm: Algorithm) -> () {
         Algorithm::Sidewinder => sidewinder(grid),
         _ => (),
     }
-    println!("{}", format(grid));
+    ()
 }
 
 pub fn parse_algorithm(algorithm: String) -> Option<Algorithm> {
