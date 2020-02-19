@@ -1,6 +1,5 @@
 use maze::create_grid;
-use maze::parse_algorithm;
-use maze::perform_alg;
+use maze::get_algorithm_from_str;
 extern crate clap;
 use clap::Clap;
 use maze::format;
@@ -33,11 +32,10 @@ fn main() {
     let grid_build_instant = Instant::now();
     let g = create_grid(opts.x, opts.y);
     let grid_build_time = grid_build_instant.elapsed().as_millis();
+
+    let generator = get_algorithm_from_str(opts.algorithm);
     let alg_instant = Instant::now();
-    match parse_algorithm(opts.algorithm) {
-        Some(alg) => perform_alg(&g, alg),
-        None => println!("Unknown algorithm supplied."),
-    }
+    generator(&g);
     let alg_time = alg_instant.elapsed().as_millis();
     if !opts.silent {
         println!("{}", format(&g));
@@ -46,7 +44,7 @@ fn main() {
     let mut table = Table::new();
 
     table.add_row(row!["algorithm", "ms"]);
-    table.add_row(row![alg, alg_time]);
+    table.add_row(row![alg.clone(), alg_time]);
 
     table.printstd();
     /*let mut window: PistonWindow = WindowSettings::new("Hello Piston!", [640, 480])
