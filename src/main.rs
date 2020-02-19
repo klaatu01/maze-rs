@@ -4,7 +4,10 @@ use maze::perform_alg;
 extern crate clap;
 use clap::Clap;
 use maze::format;
-use std::time::{Duration, Instant};
+use std::time::Instant;
+#[macro_use]
+extern crate prettytable;
+use prettytable::Table;
 
 /// This doc string acts as a help message when the user runs '--help'
 /// as do all doc strings on fields
@@ -39,13 +42,13 @@ fn main() {
     if !opts.silent {
         println!("{}", format(&g));
     }
-    println!(
-        "grid:{}ms\nalg-{}:{}ms",
-        grid_build_time.to_string(),
-        alg,
-        alg_time.to_string()
-    )
 
+    let mut table = Table::new();
+
+    table.add_row(row!["algorithm", "ms"]);
+    table.add_row(row![alg, alg_time]);
+
+    table.printstd();
     /*let mut window: PistonWindow = WindowSettings::new("Hello Piston!", [640, 480])
         .exit_on_esc(true)
         .build()
